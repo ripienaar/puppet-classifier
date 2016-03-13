@@ -1,0 +1,10 @@
+lookup_options:
+  classifier::classes:
+    merge:
+      strategy: deep
+      knockout_prefix: --
+      sort_merge_arrays: true
+      unpack_arrays: ","
+  classifier::rules:
+    merge:
+      strategy: deep
