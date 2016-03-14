@@ -68,6 +68,8 @@ rules and they are setup with a knockout of `--` so that you can remove lower do
 At present you can't knockout classes included by rules using a knockout prefix on `extra_classes`, this
 os something that's planned
 
+You can have many classification rules and which ever match can contribute classes to add
+
 Other classes can access detail about the classification result:
 
   * *$classifier::classification* - a array of Hashes with matching Rule names and classes
@@ -75,6 +77,48 @@ Other classes can access detail about the classification result:
   * *$classifier::extra_classes* - the extra classes resolved from hiera
   * *$classifier::classes* - the list of classes that will be included
 
+Reference
+---------
+
+The full type description of a rule is:
+
+```
+Hash[String,
+  Struct[{
+    match => Enum["all", "any"],
+    rules    => Array[
+      Struct[{
+        fact     => String,
+        operator => Enum["==", "=~", ">", " =>", "<", "<="],
+        value    => Data,
+        invert   => Optional[Boolean]
+      }]
+    ],
+    classes  => Array[Pattern[/\A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z/]]
+  }]
+] $rules = {},
+```
+
+A few notes:
+
+### match
+Match can be either `any` or `all` and it means that in the case where you have many `rules`
+they must either all match a node or at least one.
+
+### fact
+The fact at present takes the form `os.family` which maps to `$facts[os][family]`, at present it
+only supports data from facts and nothing else.  This is due to some bug in the new Hiera which
+should be fixed soon ans you can put anything there
+
+## operator
+Valid operators are `"==", "=~", ">", " =>", "<", "<="`, most of these comparisons are done using
+the `versioncmp` function so you should probably understand it to really grasp what these will do.
+
+In time I'd consider adding some others here, not really sure what makes sense.
+
+## invert
+This inverts the match so setting it true just swaps the whole comparison around, so there is no
+`!=` operator for example, but you can achieve that using the `==` one and inverting it
 
 Issues
 ------
