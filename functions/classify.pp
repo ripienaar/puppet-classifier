@@ -1,28 +1,17 @@
-function classifier::classify ($rules) {
-  $classes = $rules.map |$rule_name, $rule_body| {
-    $matching = $rule_body["rules"].filter |$rule| {
-      classifier::evaluate_rule(
-        classifier::fact_fetch($rule["fact"]),
-        $rule["operator"],
-        $rule["value"],
-        !!$rule["invert"]
-      )
+function classifier::classify ($rules, $empty = {}) {
+  $classes = $rules.map |$c_name, $c_body| {
+    $matching = classifier::evaluate_classification($c_body)
+
+    $classification = {
+      "name"    => $c_name,
+      "classes" => $c_body["classes"]
     }
 
-    if $rule_body["match"] == "all" {
-      if $rule_body["rules"].size == $matching.size {
-        classifier::debug("Including classes from rule '${rule_name}': ${rule_body["classes"]}")
-        $rule_body["classes"]
-      } else {
-        []
-      }
+    # defaults to 'all' matching
+    if $c_body["match"] == "any" {
+      if $matching.size > 0 { $classification } else { $empty }
     } else {
-      if $matching.size > 0 {
-        classifier::debug("Including classes from rule '${rule_name}': ${rule_body["classes"]}")
-        $rule_body["classes"]
-      } else {
-        []
-      }
+      if $c_body["rules"].size == $matching.size { $classification } else { $empty }
     }
   }
 

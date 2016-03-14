@@ -1,5 +1,5 @@
 lookup_options:
-  classifier::classes:
+  classifier::extra_classes:
     merge:
       strategy: deep
       knockout_prefix: --
