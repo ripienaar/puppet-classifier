@@ -8,3 +8,4 @@ lookup_options:
   classifier::rules:
     merge:
       strategy: deep
+      knockout_prefix: --

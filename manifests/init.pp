@@ -26,11 +26,12 @@ class classifier (
   $classes = $classification_classes + $extra_classes
 
   if $debug {
-    notice("Classification result for ${trusted[certname]}: ${classification}")
-    notice("Classes derived from classification: for ${trusted[certname]}: ${classification_classes}")
+    notice("Classification for ${trusted[certname]}: ${classifier::inspect($rules)}")
+    notice("Classification result for ${trusted[certname]}: ${classifier::inspect($classification)}")
+    notice("Classes derived from classification for ${trusted[certname]}: ${classification_classes}")
     notice("Extra classes declared for ${trusted[certname]}: ${extra_classes}")
     notice("Final classes for ${trusted[certname]}: ${classes}")
   }
 
-  include($classes)
+  $classes.include
 }

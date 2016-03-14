@@ -39,13 +39,18 @@ classifier::rules:
 classifier::extra_classes:
   - --sensu,nagios
   - client::sysadmins
+```
 
-# adjust the RedHat VMs rule to also have NTP should
-# a node match the rule defined in common.yaml
+```
+# clients/acme.yaml
+# adjust the RedHat VMs rule to add ntp on node
+# these machines but also to remove centos::vm and
+# install centos::core instead
 classifier::rules:
   RedHat VMs:
     classes:
       - ntp
+      - --centos::vm,centos::core
 ```
 
 ```
@@ -62,10 +67,10 @@ os something that's planned
 
 Other classes can access detail about the classification result:
 
-  * $classifier::classification - a array of Hashes with matching Rule names and classes
-  * $classifier::classification_classes - just the classes extracted from the classification
-  * $classifier::extra_classes - the extra classes resolved from hiera
-  * $classifier::classes - the list of classes that will be included
+  * *$classifier::classification* - a array of Hashes with matching Rule names and classes
+  * *$classifier::classification_classes* - just the classes extracted from the classification
+  * *$classifier::extra_classes* - the extra classes resolved from hiera
+  * *$classifier::classes* - the list of classes that will be included
 
 
 Issues
