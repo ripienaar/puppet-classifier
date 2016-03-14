@@ -2,9 +2,12 @@
   "name": "ripienaar-classifier",
   "version": "0.0.1",
   "author": "R.I.Pienaar",
-  "license": "Apache 2",
+  "license": "Apache-2.0",
   "summary": "A Rule based Node Classifier using Hiera",
   "source": "https://devco.net/",
+  "data_provider": "hiera",
+  "tags": ["hiera", "classification"],
+  "source": "https://github.com/ripienaar/puppet-classifier",
   "dependencies": [ ],
-  "data_provider": "hiera"
+  "requirements": [{"name": "puppet", "version_requirement": ">= 4.3.2"}]
 }

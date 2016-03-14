@@ -1,7 +1,7 @@
 class classifier (
   Hash[String,
     Struct[{
-      match => Enum["all", "any"],
+      match    => Enum["all", "any"],
       rules    => Array[
         Struct[{
           fact     => String,

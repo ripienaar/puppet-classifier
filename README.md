@@ -85,7 +85,7 @@ The full type description of a rule is:
 ```
 Hash[String,
   Struct[{
-    match => Enum["all", "any"],
+    match    => Enum["all", "any"],
     rules    => Array[
       Struct[{
         fact     => String,
@@ -124,7 +124,7 @@ Issues
 ------
 
 Ideally the fact within a classification would not be limited to facts but rather anything
-Hiera knows.  But due to PUP-6054 this does not work in Environment data only in classic
+Hiera knows.  But untill Puppet 4.4.0  this does not work in Environment data only in classic
 Hiera, so for now the `fact` on a rule has to be a `.` seperated path within the `$facts`
 hash.
 
