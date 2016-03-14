@@ -38,7 +38,6 @@ classifier::rules:
 # remove sensu and install nagios instead, also add extra stuff
 classifier::extra_classes:
   - --sensu,nagios
-  - client::sysadmins
 ```
 
 ```
@@ -51,6 +50,10 @@ classifier::rules:
     classes:
       - ntp
       - --centos::vm,centos::core
+
+# add acme client team
+classifier::extra_classes:
+  - acme::sysadmins
 ```
 
 ```
