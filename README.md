@@ -160,8 +160,15 @@ hierarchy:
 Here we load the `classifier` backend or data provider and any data you create here will be usable
 in classes or via `lookup()`.
 
-Obviously as this is inside Puppet there's some issues with exposing this to the `lookup` CLI but
-there might be some way
+Obviously as this is inside Puppet there's some issues with exposing this to the `lookup` CLI by
+default.  You'd generally use this via:
+
+```
+node default { include classifier }
+```
+
+in your site manifest.  In that case a `puppet lookup --compile some::key` will do the right thing
+for whatever node you're doing a lookup for.
 
 Issues
 ------
