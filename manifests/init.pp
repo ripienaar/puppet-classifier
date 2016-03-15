@@ -17,33 +17,18 @@ class classifier (
   Array[Pattern[/\A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z/]] $extra_classes = [],
   Boolean $debug = false
 ) {
-  # result of parsing the classification tree
-  $classification = classifier::classify($rules)
-
-  if $debug {
-    notice("Classification for ${trusted[certname]}: ${classifier::inspect($rules)}")
+  class{"classifier::classify":
+    rules => $rules,
+    debug => $debug
   }
 
-  $_matched = $classification.filter |$c| { !$c.empty }
-
-  # the classes extracted from the classification
-  $classification_classes = $_matched.map |$c| { $c["classes"] }.flatten
-
-  # properties extracted from all the various classifications
-  $data = $_matched.reduce({}) |$result, $classification| { $result + $classification["data"] }
-
-  class{"classifier::node_data": data => $data}
-
-  # this should ko merge somehow so that extra_classes can knock out a classified class
+  $classification = $classifier::classify::classification
+  $classification_classes = $classifier::classify::classification_classes
+  $data = $classifier::classify::data
   $classes = $classification_classes + $extra_classes
 
-  if $debug {
-    notice("Classification result for ${trusted[certname]}: ${classifier::inspect($classification)}")
-    notice("Properties derived from classification for ${trusted[certname]}: ${classifier::inspect($data)}")
-    notice("Classes derived from classification for ${trusted[certname]}: ${classification_classes}")
-    notice("Extra classes declared for ${trusted[certname]}: ${extra_classes}")
-    notice("Final classes for ${trusted[certname]}: ${classes}")
+  class{"classifier::apply":
+    classes => $classes,
+    debug   => $debug
   }
-
-  $classes.include
 }
