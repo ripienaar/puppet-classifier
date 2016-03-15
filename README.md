@@ -1,7 +1,7 @@
 What?
 =====
 
-An attempt to port https://github.com/binford2k/puppet-classifier to pure Puppet 4 DSL.
+An attempt to port and expand https://github.com/binford2k/puppet-classifier to pure Puppet 4 DSL.
 
 This is a node classifier where you can write classification rules that perform boolean matches on
 fact data and should a rule match some classes will be included.  Any number of classification
@@ -29,6 +29,8 @@ classifier::rules:
       - fact: is_virtual
         operator: ==
         value: true
+    data:
+      redhat_vm: true
     classes:
       - centos::vm
 ```
@@ -47,6 +49,8 @@ classifier::extra_classes:
 # install centos::core instead
 classifier::rules:
   RedHat VMs:
+    data:
+      client_redhat: true
     classes:
       - ntp
       - --centos::vm,centos::core
@@ -76,6 +80,7 @@ Other classes can access detail about the classification result:
   * *$classifier::classification_classes* - just the classes extracted from the classification
   * *$classifier::extra_classes* - the extra classes resolved from hiera
   * *$classifier::classes* - the list of classes that will be included
+  * *$classifier::data[...]* - hash of all the data created by the tiers
 
 Reference
 ---------
@@ -94,6 +99,7 @@ Hash[String,
         invert   => Optional[Boolean]
       }]
     ],
+    data     => Optional[Hash[Pattern[/\A[a-z0-9_][a-zA-Z0-9_]*\Z/], Data]],
     classes  => Array[Pattern[/\A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z/]]
   }]
 ] $rules = {},
@@ -120,6 +126,43 @@ In time I'd consider adding some others here, not really sure what makes sense.
 This inverts the match so setting it true just swaps the whole comparison around, so there is no
 `!=` operator for example, but you can achieve that using the `==` one and inverting it
 
+## data
+This is an optional hash of data items kind of like facts, these are accessible in a hash calledcw
+`$classification::data[..]` after classification
+
+Exposing Data to Hiera
+----------------------
+
+It's a bit meta but as you can see the classifications can create `data` which are merged together.
+
+It would be great if these rules could create data that is used by classes during the Automatic
+Parameter Lookup phase, so that your classification can set `someklass::someparam` and they would
+be used when `someklass` gets included.
+
+This module includes an Environment Data Provider that does just that, to configure it do something
+like this in your environment `hiera.yaml`
+
+```
+---
+version: 4
+datadir: "hieradata"
+hierarchy:
+  - name: "%{trusted.certname}"
+    backend: "yaml"
+
+  - name: "classification data"
+    backend: "classifier"
+
+  - name: "common"
+    backend: "yaml"
+```
+
+Here we load the `classifier` backend or data provider and any data you create here will be usable
+in classes or via `lookup()`.
+
+Obviously as this is inside Puppet there's some issues with exposing this to the `lookup` CLI but
+there might be some way
+
 Issues
 ------
 
@@ -127,6 +170,10 @@ Ideally the fact within a classification would not be limited to facts but rathe
 Hiera knows.  But untill Puppet 4.4.0  this does not work in Environment data only in classic
 Hiera, so for now the `fact` on a rule has to be a `.` seperated path within the `$facts`
 hash.
+
+The giant Type definition is obviously not usable, Puppet 4.4.0 should have a kind of typedef
+which will improve matters and means I can make a type like Classifier::Operator and use that
+across all the functions, this would be a big win
 
 Contact?
 --------

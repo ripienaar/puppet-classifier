@@ -4,7 +4,8 @@ function classifier::classify ($rules, $empty = {}) {
 
     $classification = {
       "name"    => $c_name,
-      "classes" => $c_body["classes"]
+      "classes" => $c_body["classes"],
+      "data"    => $c_body["data"] ? { Undef => {}, default => $c_body["data"]}
     }
 
     # defaults to 'all' matching
