@@ -183,18 +183,6 @@ node default { include classifier }
 in your site manifest.  In that case a `puppet lookup --compile some::key` will do the right thing
 for whatever node you're doing a lookup for.
 
-Issues
-------
-
-Ideally the fact within a classification would not be limited to facts but rather anything
-Hiera knows.  But untill Puppet 4.4.0  this does not work in Environment data only in classic
-Hiera, so for now the `fact` on a rule has to be a `.` seperated path within the `$facts`
-hash.
-
-The giant Type definition is obviously not usable, Puppet 4.4.0 should have a kind of typedef
-which will improve matters and means I can make a type like Classifier::Operator and use that
-across all the functions, this would be a big win
-
 Contact?
 --------
 
