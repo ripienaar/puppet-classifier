@@ -1,4 +1,7 @@
-class classifier::apply($classes, $debug) {
+class classifier::apply(
+  Array[Classifier::Classname] $classes,
+  Boolean $debug
+) {
   $classes.each |$class| {
     include($class)
   }

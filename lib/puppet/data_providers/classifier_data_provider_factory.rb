@@ -1,6 +1,6 @@
 module Puppet::DataProviders
   class ClassifierDataProviderFactory < Puppet::Plugins::DataProviders::PathBasedDataProviderFactory
-    def create(name, paths)
+    def create(name, paths, parent_provider)
       ClassifierDataProvider.new(name, paths)
     end
   end

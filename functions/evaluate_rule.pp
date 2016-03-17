@@ -1,9 +1,12 @@
 function classifier::evaluate_rule (
   Data $left,
-  Enum["==", "=~", ">", " =>", "<", "<="] $operator,
+  Classifier::Operators $operator,
   Data $right,
   Boolean $invert
 ) {
+  notice($left)
+  notice($right)
+
   $evaluated = case $operator {
     "==": {
       $left == $right

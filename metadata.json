@@ -9,5 +9,5 @@
   "tags": ["hiera", "classification"],
   "source": "https://github.com/ripienaar/puppet-classifier",
   "dependencies": [ ],
-  "requirements": [{"name": "puppet", "version_requirement": ">= 4.3.2"}]
+  "requirements": [{"name": "puppet", "version_requirement": ">= 4.4.0"}]
 }

@@ -1,0 +1,1 @@
+type Classifier::Operators = Enum["==", "=~", ">", " =>", "<", "<="]

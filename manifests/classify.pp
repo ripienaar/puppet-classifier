@@ -1,4 +1,7 @@
-class classifier::classify($rules, $debug) {
+class classifier::classify(
+  Classifier::Classifications $rules,
+  Boolean $debug
+) {
   $_result = classifier::classify($rules)
 
   if $debug {
@@ -19,7 +22,5 @@ class classifier::classify($rules, $debug) {
     notice("Classification result for ${trusted[certname]}: ${classifier::inspect($classification)}")
     notice("Properties derived from classification for ${trusted[certname]}: ${classifier::inspect($data)}")
     notice("Classes derived from classification for ${trusted[certname]}: ${classification_classes}")
-    notice("Extra classes declared for ${trusted[certname]}: ${extra_classes}")
-    notice("Final classes for ${trusted[certname]}: ${classes}")
   }
 }

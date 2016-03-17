@@ -1,4 +1,7 @@
-function classifier::classify ($rules, $empty = {}) {
+function classifier::classify (
+  Classifier::Classifications $rules,
+  Hash $empty = {}
+) {
   $classes = $rules.map |$c_name, $c_body| {
     $matching = classifier::evaluate_classification($c_body)
 

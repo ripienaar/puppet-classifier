@@ -23,12 +23,12 @@ classifier::rules:
   RedHat VMs:
     match: all
     rules:
-      - fact: os.family
+      - fact: "%{facts.os.family}"
         operator: ==
         value: RedHat
-      - fact: is_virtual
+      - fact: "%{facts.is_virtual}"
         operator: ==
-        value: true
+        value: "true"
     data:
       redhat_vm: true
     classes:
@@ -105,6 +105,18 @@ Hash[String,
 ] $rules = {},
 ```
 
+A number of custom types are defined for things like the list of valid operators, valid
+variable and class names, matches, individual rule and the whole classification.  Should
+you wish to build additional classes that consume data from this tool please validate the
+input using them
+
+  * *Classifier::Classification* - a single classification made up of rules, classes, data and match type
+  * *Classifier::Classifications* - a collection of classifications
+  * *Classifier::Matches* - the list of valid match types
+  * *Classifier::Rule* - a single rule inside a classification
+  * *Classifier::Data* - valid data items
+  * *Classifier::Operators* - valid operators
+
 A few notes:
 
 ### match
@@ -112,9 +124,10 @@ Match can be either `any` or `all` and it means that in the case where you have 
 they must either all match a node or at least one.
 
 ### fact
-The fact at present takes the form `os.family` which maps to `$facts[os][family]`, at present it
-only supports data from facts and nothing else.  This is due to some bug in the new Hiera which
-should be fixed soon ans you can put anything there
+Use Hiera interprolation to put any fact or trusted data into the rule set. Take note in hiera
+to interpolate data you have to quote things like this `"${facts.thing}"` which coherse the data
+into a string.  In the example rule above a boolean fact is cohersed to a string in this manner
+and so the match value has to be `"true"` as well.
 
 ## operator
 Valid operators are `"==", "=~", ">", " =>", "<", "<="`, most of these comparisons are done using
