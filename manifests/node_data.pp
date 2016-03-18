@@ -1,3 +1,3 @@
-class classifier::node_data(
+class classifier::node_data (
   Classifier::Data $data
 ) { }

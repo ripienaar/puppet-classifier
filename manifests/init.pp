@@ -4,8 +4,8 @@ class classifier (
   Boolean                      $debug = false
 ) {
   class{"classifier::classify":
-    rules         => $rules,
-    debug         => $debug
+    rules => $rules,
+    debug => $debug
   }
 
   $classification = $classifier::classify::classification

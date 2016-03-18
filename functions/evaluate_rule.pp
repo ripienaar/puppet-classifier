@@ -33,7 +33,7 @@ function classifier::evaluate_rule (
     }
 
     default: {
-      fail("Unknown operator $operator")
+      fail("Unknown operator ${operator}")
     }
   }
 
