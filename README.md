@@ -116,6 +116,7 @@ input using them
   * *Classifier::Rule* - a single rule inside a classification
   * *Classifier::Data* - valid data items
   * *Classifier::Operators* - valid operators
+  * *Classifier::Node* - classification result for a node
 
 A few notes:
 

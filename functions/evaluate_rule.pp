@@ -1,12 +1,12 @@
+# Evaluate a single expression made up of a left, right and operator
+#
+# @return [Boolean]
 function classifier::evaluate_rule (
   Data $left,
   Classifier::Operators $operator,
   Data $right,
   Boolean $invert
 ) {
-  notice($left)
-  notice($right)
-
   $evaluated = case $operator {
     "==": {
       $left == $right

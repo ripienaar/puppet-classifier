@@ -1,3 +1,7 @@
+# Given a set of classification rules this will itterate them
+# and create a classification for the current node
+#
+# @return [Classifier::Node] of classification data
 function classifier::classify (
   Classifier::Classifications $rules,
   Hash $empty = {}
@@ -13,11 +17,19 @@ function classifier::classify (
 
     # defaults to 'all' matching
     if $c_body["match"] == "any" {
-      if $matching.size > 0 { $classification } else { $empty }
+      if $matching.size > 0 {
+        $classification
+      } else {
+        $empty
+      }
     } else {
-      if $c_body["rules"].size == $matching.size { $classification } else { $empty }
+      if $c_body["rules"].size == $matching.size {
+        $classification
+      } else {
+        $empty
+      }
     }
   }
 
-  $classes.flatten
+  $classes.filter |$c| { !$c.empty }
 }

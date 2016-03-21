@@ -1,3 +1,9 @@
+# Reads classification rules from Hiera and classifies a node
+#
+# After classification is done a number of variables are
+# considered public and can be used to access the classification
+# results.  These are `$classification`, `$classification_classes`,
+# `$data` and `$classes`.
 class classifier (
   Classifier::Classifications  $rules = {},
   Array[Classifier::Classname] $extra_classes = [],

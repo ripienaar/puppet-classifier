@@ -1,14 +1,18 @@
+# Performs classification of the node by evaluating its
+# Classifier::Classifications as found in hiera
+#
+# When debug is passed a number of debug notices are
+# created that might include sensitive information so
+# use with caution
 class classifier::classify(
   Classifier::Classifications $rules,
   Boolean $debug
 ) {
-  $_result = classifier::classify($rules)
+  $classification = classifier::classify($rules)
 
   if $debug {
     notice("Classification for ${trusted[certname]}: ${classifier::inspect($_result)}")
   }
-
-  $classification = $_result.filter |$c| { !$c.empty }
 
   # the classes extracted from the classification
   $classification_classes = $classification.map |$c| { $c["classes"] }.flatten
