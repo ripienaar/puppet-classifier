@@ -1,1 +1,9 @@
-type Classifier::Operators = Enum["==", "=~", ">", " =>", "<", "<="]
+type Classifier::Operators = Enum[
+  "==",
+  "=~",
+  ">",
+  "=>",
+  "<",
+  "<=",
+  "has_ip_network"
+]

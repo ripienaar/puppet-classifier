@@ -1,1 +1,1 @@
-type Classifier::Data = Optional[Hash[Classifier::Classname, Data]]
+type Classifier::Data = Hash[Classifier::Classname, Data]

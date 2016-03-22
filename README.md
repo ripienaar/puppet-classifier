@@ -39,7 +39,8 @@ classifier::rules:
 # node.example.net.yaml
 # remove sensu and install nagios instead, also add extra stuff
 classifier::extra_classes:
-  - --sensu,nagios
+  - --sensu
+  - nagios
 ```
 
 ```
@@ -53,7 +54,8 @@ classifier::rules:
       client_redhat: true
     classes:
       - ntp
-      - --centos::vm,centos::core
+      - --centos::vm
+      - centos::core
 
 # add acme client team
 classifier::extra_classes:
@@ -90,17 +92,17 @@ The full type description of a rule is:
 ```
 Hash[String,
   Struct[{
-    match    => Enum["all", "any"],
+    match    => Optional[Enum["all", "any"]],
     rules    => Array[
       Struct[{
-        fact     => String,
-        operator => Enum["==", "=~", ">", " =>", "<", "<="],
+        fact     => Optional[Data],
+        operator => Enum["==", "=~", ">", " =>", "<", "<=", "has_ip_network"],
         value    => Data,
         invert   => Optional[Boolean]
       }]
     ],
     data     => Optional[Hash[Pattern[/\A[a-z0-9_][a-zA-Z0-9_]*\Z/], Data]],
-    classes  => Array[Pattern[/\A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z/]]
+    classes  => Optional[Array[Pattern[/\A([a-z][a-z0-9_]*)?(::[a-z][a-z0-9_]*)*\Z/]]]
   }]
 ] $rules = {},
 ```
@@ -130,11 +132,25 @@ to interpolate data you have to quote things like this `"${facts.thing}"` which 
 into a string.  In the example rule above a boolean fact is cohersed to a string in this manner
 and so the match value has to be `"true"` as well.
 
-## operator
-Valid operators are `"==", "=~", ">", " =>", "<", "<="`, most of these comparisons are done using
-the `versioncmp` function so you should probably understand it to really grasp what these will do.
+The fact is optional, since some times like in the case of `has_ip_network` for example it does
+not make sense since it checks a range of facts from the node.
 
-In time I'd consider adding some others here, not really sure what makes sense.
+## operator
+Valid operators are `"==", "=~", ">", " =>", "<", "<=", "has_ip_network"`, most of these comparisons
+are done using the `versioncmp` function so you should probably understand it to really grasp what
+these will do.
+
+There are a special ones planned like the current `has_ip_network` which comes from `stdlib`, when
+using that the `fact` is optional, so something like:
+
+```
+Development Servers:
+  rules:
+    - operator: has_ip_network
+      value: 192.168.88.0
+  classes:
+    - development
+```
 
 ## invert
 This inverts the match so setting it true just swaps the whole comparison around, so there is no
@@ -181,8 +197,30 @@ default.  You'd generally use this via:
 node default { include classifier }
 ```
 
-in your site manifest.  In that case a `puppet lookup --compile some::key` will do the right thing
-for whatever node you're doing a lookup for.
+in your site manifest.  You can include other classes manually under this but generally you want the
+classifier included first so it can create all the data and other classes can all be configured using
+it.
+
+In that case a `puppet lookup --compile some::key` will do the right thing for whatever node you're
+doing a lookup for.
+
+Future Plans?
+-------------
+
+I want to expand the rules so you can use other functions to do evaluation, things like checking if
+a node IP belongs to a certain subnet for example, this could be done by adding functions to the
+classifier and them into the `classifier::evaluate_rule` function as operators perhaps.
+
+At the moment there is `has_ip_network` which just uses `stdlib`, I am not really sure if this is
+a good fit so that's experimental while I figure it out.  It might be nice to support any function
+call there not just ones that's hardcoded in `classifier::evaluate_rule` in order to make the classifier
+user extendible at their site using any functions they might have. If we only supported a bunch of
+hard coded ones I can imaginet his becoming a huge nightmare to support in the long term as users
+might want to add many such matchers.  A more extendible approach makes more sense.
+
+But down that road lies basically doing `eval()` in puppet and this is just a terrible terrible idea
+so I am not sure what's best.  It would be very easy to write a function dispatch for any function
+that exists, but really it would not be a good idea.
 
 Contact?
 --------

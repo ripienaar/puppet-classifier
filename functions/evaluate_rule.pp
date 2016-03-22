@@ -32,6 +32,10 @@ function classifier::evaluate_rule (
       versioncmp($left, $right) != 1
     }
 
+    "has_ip_network": {
+      has_ip_network($right)
+    }
+
     default: {
       fail("Unknown operator ${operator}")
     }

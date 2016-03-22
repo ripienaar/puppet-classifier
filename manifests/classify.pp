@@ -11,7 +11,7 @@ class classifier::classify(
   $classification = classifier::classify($rules)
 
   if $debug {
-    notice("Classification for ${trusted[certname]}: ${classifier::inspect($_result)}")
+    notice("Classification for ${trusted[certname]}: ${classifier::inspect($classification)}")
   }
 
   # the classes extracted from the classification
