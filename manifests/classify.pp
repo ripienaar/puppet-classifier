@@ -8,11 +8,11 @@ class classifier::classify(
   Classifier::Classifications $rules,
   Boolean $debug
 ) {
-  $classification = classifier::classify($rules)
-
   if $debug {
-    notice("Classification for ${trusted[certname]}: ${classifier::inspect($classification)}")
+    notice("Classification for ${trusted[certname]}: ${classifier::inspect($rules)}")
   }
+
+  $classification = classifier::classify($rules)
 
   # the classes extracted from the classification
   $classification_classes = $classification.map |$c| { $c["classes"] }.flatten

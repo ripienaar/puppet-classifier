@@ -10,6 +10,8 @@ rules can match on a given node and they can all contribute classes.
 Different data tiers can contribute rules and it has a way to just add classes statically like
 the old `hiera_include()` approach.
 
+**NOTE:** I'm using semver and as this is still less than 1.0.0 expect breaking changes to happen.
+
 Sample Data
 -----------
 

@@ -1,4 +1,10 @@
+# 0.0.6
+
+  * Add the function `classifier::has_network_details` replacing the need for stdlib and old style facts
+  * Fix debug logging of the classification rules before evaluation
+
 # 0.0.5
+
   * Add `has_ip_network` operator and add stdlib dependency
   * Remove `unpack_arrays` from the merge options as this function is being removed from Puppet
   * Fix bug where the classifications were not shown when debug is set

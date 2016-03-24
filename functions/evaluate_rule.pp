@@ -33,7 +33,7 @@ function classifier::evaluate_rule (
     }
 
     "has_ip_network": {
-      has_ip_network($right)
+      classifier::has_interface_detail($right, "network")
     }
 
     default: {
