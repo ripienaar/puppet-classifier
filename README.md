@@ -85,6 +85,9 @@ Other classes can access detail about the classification result:
   * *$classifier::extra_classes* - the extra classes resolved from hiera
   * *$classifier::classes* - the list of classes that will be included
   * *$classifier::data[...]* - hash of all the data created by the tiers
+  * *$classifier::enc_used* - boolean indicating if the ENC was used
+  * *$classifier::enc_source* - path to the data file that was matched and supplied the environment, undef when not used
+  * *$classifier::enc_environment* - the environment the ENC set, undef when not used
 
 Reference
 ---------
@@ -203,8 +206,16 @@ in your site manifest.  You can include other classes manually under this but ge
 classifier included first so it can create all the data and other classes can all be configured using
 it.
 
+An alternative is to use the included ENC which will include the classifier for you and supports
+setting the environment based on hiera data.  See ENC.md.
+
 In that case a `puppet lookup --compile some::key` will do the right thing for whatever node you're
 doing a lookup for.
+
+Setting The Environment?
+------------------------
+
+You can set the environment of a node with the help of a ENC included in bin, see ENC.md
 
 Future Plans?
 -------------
@@ -213,12 +224,12 @@ I want to expand the rules so you can use other functions to do evaluation, thin
 a node IP belongs to a certain subnet for example, this could be done by adding functions to the
 classifier and them into the `classifier::evaluate_rule` function as operators perhaps.
 
-At the moment there is `has_ip_network` which just uses `stdlib`, I am not really sure if this is
-a good fit so that's experimental while I figure it out.  It might be nice to support any function
-call there not just ones that's hardcoded in `classifier::evaluate_rule` in order to make the classifier
-user extendible at their site using any functions they might have. If we only supported a bunch of
-hard coded ones I can imaginet his becoming a huge nightmare to support in the long term as users
-might want to add many such matchers.  A more extendible approach makes more sense.
+At the moment there is `has_ip_network`, I am not really sure if this is a good fit so that's experimental
+while I figure it out.  It might be nice to support any function call there not just ones that's hardcoded
+in `classifier::evaluate_rule` in order to make the classifier user extendible at their site using any
+functions they might have. If we only supported a bunch of hard coded ones I can imaginet his becoming a
+huge nightmare to support in the long term as users might want to add many such matchers.  A more extendible
+approach makes more sense.
 
 But down that road lies basically doing `eval()` in puppet and this is just a terrible terrible idea
 so I am not sure what's best.  It would be very easy to write a function dispatch for any function

@@ -7,8 +7,25 @@
 class classifier (
   Classifier::Classifications  $rules = {},
   Array[Classifier::Classname] $extra_classes = [],
-  Boolean                      $debug = false
+  Boolean                      $debug = false,
+  Boolean                      $validate_enc = true,
+  Boolean                      $enc_used = false,
+  Optional[String]             $enc_source = undef,
+  Optional[String]             $enc_environment = undef
 ) {
+
+  if $enc_used {
+    classifier::debug("The ENC was used and set environment '${enc_environment}' for '${trusted[certname]}' using '${enc_source}'")
+
+    if $validate_enc {
+      unless $enc_environment == $::environment {
+        fail("Classifier ENC set environment to '${enc_environment}' for '${trusted[certname]}' but the active environment is '${::environment}' refusing to continue")
+      }
+    }
+  } else {
+    classifier::debug("The ENC was not used to classify ${trusted[certname]}, environment is ${::environment}")
+  }
+
   class{"classifier::classify":
     rules => $rules,
     debug => $debug
@@ -19,10 +36,8 @@ class classifier (
   $data = $classifier::classify::data
   $classes = $classification_classes + $extra_classes
 
-  if $debug {
-    notice("Extra classes declared for ${trusted[certname]}: ${extra_classes}")
-    notice("Final classes for ${trusted[certname]}: ${classes}")
-  }
+  classifier::debug("Extra classes declared for ${trusted[certname]}: ${extra_classes}")
+  classifier::debug("Final classes for ${trusted[certname]}: ${classes}")
 
   class{"classifier::apply":
     classes => $classes,

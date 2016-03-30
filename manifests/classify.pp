@@ -8,9 +8,7 @@ class classifier::classify(
   Classifier::Classifications $rules,
   Boolean $debug
 ) {
-  if $debug {
-    notice("Classification for ${trusted[certname]}: ${classifier::inspect($rules)}")
-  }
+  classifier::debug("Classification for ${trusted[certname]}: ${classifier::inspect($rules)}")
 
   $classification = classifier::classify($rules)
 
@@ -22,9 +20,7 @@ class classifier::classify(
 
   class{"classifier::node_data": data => $data}
 
-  if $debug {
-    notice("Classification result for ${trusted[certname]}: ${classifier::inspect($classification)}")
-    notice("Properties derived from classification for ${trusted[certname]}: ${classifier::inspect($data)}")
-    notice("Classes derived from classification for ${trusted[certname]}: ${classification_classes}")
-  }
+  classifier::debug("Classification result for ${trusted[certname]}: ${classifier::inspect($classification)}")
+  classifier::debug("Properties derived from classification for ${trusted[certname]}: ${classifier::inspect($data)}")
+  classifier::debug("Classes derived from classification for ${trusted[certname]}: ${classification_classes}")
 }

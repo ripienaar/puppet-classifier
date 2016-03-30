@@ -1,3 +1,9 @@
+# 0.0.7
+
+  * Add an ENC to facilitate setting the environment
+  * Support checking if the ENC classification was correctly applied
+  * Log details about classification results when ENC is in use
+
 # 0.0.6
 
   * Add the function `classifier::has_network_details` replacing the need for stdlib and old style facts
