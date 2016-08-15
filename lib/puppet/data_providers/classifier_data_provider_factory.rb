@@ -1,3 +1,5 @@
+require "puppet/data_providers/hiera_interpolate"
+
 module Puppet::DataProviders
   class ClassifierDataProviderFactory < Puppet::Plugins::DataProviders::PathBasedDataProviderFactory
     def create(name, paths, parent_provider)
@@ -6,7 +8,7 @@ module Puppet::DataProviders
   end
 
   class ClassifierDataProvider < Puppet::Plugins::DataProviders::PathBasedDataProvider
-    include HieraInterpolate
+    include Puppet::DataProviders::HieraInterpolate
 
     def unchecked_lookup(key, lookup_invocation, merge)
       lookup_invocation.with(:data_provider, self) do
