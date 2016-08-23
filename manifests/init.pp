@@ -30,6 +30,7 @@ class classifier (
     rules => $rules,
     debug => $debug
   }
+  contain classifier::classify
 
   $classification = $classifier::classify::classification
   $classification_classes = $classifier::classify::classification_classes
