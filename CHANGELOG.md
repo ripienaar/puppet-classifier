@@ -1,3 +1,7 @@
+# 0.0.8
+
+  * Add has_mac, has_ip_address and has_ip_netmask rule operators
+
 # 0.0.7
 
   * Add an ENC to facilitate setting the environment
