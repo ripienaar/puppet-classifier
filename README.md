@@ -101,7 +101,7 @@ Hash[String,
     rules    => Array[
       Struct[{
         fact     => Optional[Data],
-        operator => Enum["==", "=~", ">", " =>", "<", "<=", "has_ip_network"],
+        operator => Enum["==", "=~", ">", " =>", "<", "<=", "in", "has_ip_network"],
         value    => Data,
         invert   => Optional[Boolean]
       }]
@@ -141,7 +141,7 @@ The fact is optional, since some times like in the case of `has_ip_network` for 
 not make sense since it checks a range of facts from the node.
 
 ## operator
-Valid operators are `"==", "=~", ">", " =>", "<", "<=", "has_ip_network"`, most of these comparisons
+Valid operators are `"==", "=~", ">", " =>", "<", "<=", "in", "has_ip_network"`, most of these comparisons
 are done using the `versioncmp` function so you should probably understand it to really grasp what
 these will do.
 
