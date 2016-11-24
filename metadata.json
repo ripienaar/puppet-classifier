@@ -1,6 +1,6 @@
 {
   "name": "ripienaar-classifier",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "R.I.Pienaar",
   "license": "Apache-2.0",
   "summary": "A Rule based Node Classifier using Hiera",

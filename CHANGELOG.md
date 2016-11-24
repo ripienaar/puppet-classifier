@@ -1,6 +1,10 @@
+# 0.0.9
+  * Add has_mac, has_ip_address and has_ip_netmask rule operators
+  * Add in rule operator (Matteo Cerutti @m4ce)
+
 # 0.0.8
 
-  * Add has_mac, has_ip_address and has_ip_netmask rule operators
+  * Fix loading issues on recent puppet versions
 
 # 0.0.7
 
