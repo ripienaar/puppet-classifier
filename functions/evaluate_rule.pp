@@ -34,6 +34,17 @@ function classifier::evaluate_rule (
 
     "in": {
       $left in $right
+
+    "has_mac": {
+      classifier::has_interface_detail($right, "mac")
+    }
+
+    "has_ip_address": {
+      classifier::has_interface_detail($right, "address")
+    }
+
+    "has_ip_netmask": {
+      classifier::has_interface_detail($right, "netmask")
     }
 
     "has_ip_network": {
