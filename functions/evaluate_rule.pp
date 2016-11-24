@@ -32,6 +32,10 @@ function classifier::evaluate_rule (
       versioncmp($left, $right) != 1
     }
 
+    "in": {
+      $left in $right
+    }
+
     "has_ip_network": {
       classifier::has_interface_detail($right, "network")
     }
