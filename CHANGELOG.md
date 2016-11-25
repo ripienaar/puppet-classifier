@@ -1,4 +1,10 @@
+# 0.0.10
+
+  * Fix a syntax bug in 0.0.8 (Matteo Cerutti @m4ce)
+  * Perform a deep merge on the calculated data (Matteo Cerutti @m4ce)
+
 # 0.0.9
+
   * Add has_mac, has_ip_address and has_ip_netmask rule operators
   * Add in rule operator (Matteo Cerutti @m4ce)
 
