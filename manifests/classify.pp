@@ -16,7 +16,7 @@ class classifier::classify(
   $classification_classes = $classification.map |$c| { $c["classes"] }.flatten
 
   # data extracted and merged
-  $data = $classification.reduce({}) |$r, $c| { $r+ $c["data"] }
+  $data = $classification.reduce({}) |$r, $c| { deep_merge($r, $c["data"]) }
 
   class{"classifier::node_data": data => $data}
 
