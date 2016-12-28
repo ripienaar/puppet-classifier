@@ -33,7 +33,7 @@ function classifier::evaluate_rule (
     }
 
     "in": {
-      $right in $left
+      $left in $right
     }
 
     "has_mac": {
