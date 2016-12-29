@@ -1,3 +1,7 @@
+# 0.0.11
+
+  * Reverse the logic for the `in` expression to be more natural
+
 # 0.0.10
 
   * Fix a syntax bug in 0.0.8 (Matteo Cerutti @m4ce)
