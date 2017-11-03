@@ -5,7 +5,6 @@
   "license": "Apache-2.0",
   "summary": "A Rule based Node Classifier using Hiera",
   "source": "https://devco.net/",
-  "data_provider": "hiera",
   "tags": ["hiera", "classification"],
   "source": "https://github.com/ripienaar/puppet-classifier",
   "dependencies": [
@@ -17,7 +16,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.4.1"
+      "version_requirement": ">= 4.10.5"
     }
   ]
 }
