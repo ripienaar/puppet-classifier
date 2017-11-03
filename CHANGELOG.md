@@ -1,3 +1,8 @@
+# 0.1.0
+
+  * Remove the old experimental hiera backend to improve compatibility with modern puppet (
+  * Requires Puppet 5
+
 # 0.0.11
 
   * Reverse the logic for the `in` expression to be more natural
