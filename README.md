@@ -165,52 +165,6 @@ This inverts the match so setting it true just swaps the whole comparison around
 This is an optional hash of data items kind of like facts, these are accessible in a hash calledcw
 `$classification::data[..]` after classification
 
-Exposing Data to Hiera
-----------------------
-
-It's a bit meta but as you can see the classifications can create `data` which are merged together.
-
-It would be great if these rules could create data that is used by classes during the Automatic
-Parameter Lookup phase, so that your classification can set `someklass::someparam` and they would
-be used when `someklass` gets included.
-
-This module includes an Environment Data Provider that does just that, to configure it do something
-like this in your environment `hiera.yaml`
-
-```
----
-version: 4
-datadir: "hieradata"
-hierarchy:
-  - name: "%{trusted.certname}"
-    backend: "yaml"
-
-  - name: "classification data"
-    backend: "classifier"
-
-  - name: "common"
-    backend: "yaml"
-```
-
-Here we load the `classifier` backend or data provider and any data you create here will be usable
-in classes or via `lookup()`.
-
-Obviously as this is inside Puppet there's some issues with exposing this to the `lookup` CLI by
-default.  You'd generally use this via:
-
-```
-node default { include classifier }
-```
-
-in your site manifest.  You can include other classes manually under this but generally you want the
-classifier included first so it can create all the data and other classes can all be configured using
-it.
-
-An alternative is to use the included ENC which will include the classifier for you and supports
-setting the environment based on hiera data.  See ENC.md.
-
-In that case a `puppet lookup --compile some::key` will do the right thing for whatever node you're
-doing a lookup for.
 
 Setting The Environment?
 ------------------------
