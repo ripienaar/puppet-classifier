@@ -1,3 +1,7 @@
+# 0.1.1
+
+  * Improve handling of nodes with nics that do  not have both IPv4 and IPv6
+
 # 0.1.0
 
   * Remove the old experimental hiera backend to improve compatibility with modern puppet (
