@@ -27,8 +27,10 @@ function classifier::has_interface_detail (
       $interface["mac"]
     } else {
       ["bindings", "bindings6"].map |$bname| {
-        $interface[$bname].map |$binding| {
-          $binding[$what]
+        if $bname in $interface {
+          $interface[$bname].map |$binding| {
+            $binding[$what]
+          }
         }
       }
     }
