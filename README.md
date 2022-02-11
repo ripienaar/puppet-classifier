@@ -165,6 +165,32 @@ This inverts the match so setting it true just swaps the whole comparison around
 This is an optional hash of data items kind of like facts, these are accessible in a hash calledcw
 `$classification::data[..]` after classification
 
+Exposing Data to Hiera
+----------------------
+
+puppet-classifier can be used as a hiera backend, this allows to retrieve the variables set in `data` entry to be used by other classes using hiera automatic parameter lookup.
+
+This is done be adding a `lookup_key` backend using the `classifier::hiera_backend` function in `hiera.yaml`.
+
+Example hiera.yaml:
+
+```
+---
+version: 5
+defaults:
+  datadir: "data"
+
+hierarchy:
+  - name: node
+    data_hash: yaml_data
+    path: "nodes/%{trusted.certname}.yaml"
+  - name: "Classifier data"
+    lookup_key: classifier::hiera_backend
+  - name: common
+    data_hash: yaml_data
+    path: common.yaml
+```
+
 
 Setting The Environment?
 ------------------------
